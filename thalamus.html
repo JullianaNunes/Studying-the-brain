@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estrutura do cérebro · Atlas do Cérebro</title>
+  <meta name="description" content="Página de detalhe de uma estrutura do cérebro humano: funções, conexões, curiosidades e efeitos de lesão." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+  <!-- Caminhos com "../" porque este arquivo vive dentro de /pages -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/brain.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="../index.html" class="brand" aria-label="Atlas do Cérebro — página inicial">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C8 3 5 6 5 10c0 2 1 3.5 1 5 0 2 1.5 3 3 3v2h6v-2c1.5 0 3-1 3-3 0-1.5 1-3 1-5 0-4-3-7-7-7z" stroke="white" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        Atlas do Cérebro
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a class="site-nav__link" href="../index.html">Mapa interativo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- =================================================================
+         CONTAINER PRINCIPAL DA PÁGINA DE DETALHE
+         O atributo data-part é a ÚNICA coisa que muda de uma página de
+         estrutura para outra. É a partir dele que script.js sabe qual
+         objeto buscar em js/data.js e usa para preencher todo o resto
+         desta página automaticamente (ver função preencherPaginaDeDetalhe).
+         data-loading="true" mantém o conteúdo levemente invisível até
+         o JavaScript terminar de preencher os textos, evitando o
+         "flash" de placeholders vazios.
+         ================================================================= -->
+    <div class="detail" data-part="thalamus" data-loading="true">
+
+      <a href="../index.html" class="detail__back">&larr; voltar ao cérebro</a>
+
+      <!-- Cabeçalho da estrutura: ícone + nome + categoria + resumo -->
+      <div class="detail__hero">
+        <div class="detail__icon" data-field="icon">
+          <!-- Ícone genérico de cérebro, colorido via CSS conforme a
+               categoria da estrutura (lobo / cerebelo-tronco / profunda). -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.5C8 2.5 5 5.8 5 9.8c0 2.1 0.9 3.4 0.9 5.2 0 2.1 1.6 3.4 3.3 3.4v2.6h5.6v-2.6c1.7 0 3.3-1.3 3.3-3.4 0-1.8 0.9-3.1 0.9-5.2 0-4-3-7.3-7-7.3z"
+              stroke="var(--color-primary)" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12 6.5c-1.8 0-3.2 1.4-3.2 3.4 0 0.9 0.3 1.6 0.7 2.2M12 6.5c1.8 0 3.2 1.4 3.2 3.4"
+              stroke="var(--color-primary)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <span class="detail__category" data-field="category">Categoria</span>
+          <h1 data-field="name">Nome da estrutura</h1>
+          <p class="detail__short" data-field="shortDesc">Resumo curto.</p>
+        </div>
+      </div>
+
+      <!-- Descrição geral -->
+      <section class="card">
+        <h2>Descrição geral</h2>
+        <p data-field="description">Carregando descrição...</p>
+      </section>
+
+      <!-- Funções -->
+      <section class="card">
+        <h2>Funções</h2>
+        <ul class="function-list" data-field="functions">
+          <li>Carregando...</li>
+        </ul>
+      </section>
+
+      <!-- O que controla -->
+      <section class="card">
+        <h2>O que controla</h2>
+        <p data-field="controls">Carregando...</p>
+      </section>
+
+      <!-- Principais conexões -->
+      <section class="card">
+        <h2>Principais conexões</h2>
+        <p data-field="connections">Carregando...</p>
+      </section>
+
+      <!-- Curiosidades -->
+      <section class="card">
+        <h2>Curiosidades</h2>
+        <p data-field="curiosities">Carregando...</p>
+      </section>
+
+      <!-- Possíveis alterações quando lesionada -->
+      <section class="card">
+        <h2>Possíveis alterações quando lesionada</h2>
+        <p data-field="damage">Carregando...</p>
+      </section>
+
+      <!-- Bibliografia -->
+      <section class="card">
+        <h2>Bibliografia</h2>
+        <ul class="bibliography-list" data-field="bibliography">
+          <li>Carregando...</li>
+        </ul>
+      </section>
+
+      <a href="../index.html" class="detail__back detail__back--bottom">&larr; voltar ao cérebro</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>&copy; <span id="current-year"></span> Atlas do Cérebro — projeto educacional de código aberto.</p>
+      <p>Feito com HTML, CSS e JavaScript puro.</p>
+    </div>
+  </footer>
+
+  <!-- data.js e script.js preenchem o conteúdo desta página em tempo
+       de execução, a partir do atributo data-part definido acima.
+       brain.js não é necessário aqui pois não há SVG interativo nesta
+       página, mas incluí-lo não causaria erro (ele simplesmente não
+       encontraria .brain-map e não faria nada). -->
+  <script src="../js/data.js"></script>
+  <script src="../js/script.js"></script>
+</body>
+</html>
