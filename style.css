@@ -1,0 +1,526 @@
+/* =====================================================================
+   style.css
+   ---------------------------------------------------------------------
+   Estilos GERAIS do site: reset, variáveis de design (design tokens),
+   tipografia, layout de cabeçalho/rodapé, cartões de conteúdo,
+   legenda do mapa cerebral e responsividade.
+
+   Os estilos específicos do desenho do cérebro (SVG) ficam em
+   brain.css — assim cada arquivo tem uma responsabilidade clara.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. DESIGN TOKENS (variáveis CSS)
+   Centralizamos aqui todas as cores, fontes e sombras do projeto.
+   Isso facilita muito a manutenção: para mudar o tom de azul do site
+   inteiro, por exemplo, basta alterar o valor de --color-primary aqui.
+   --------------------------------------------------------------------- */
+:root {
+  /* Cores de fundo e superfície */
+  --color-bg: #F5F7FA;              /* fundo claro do site, conforme briefing */
+  --color-surface: #FFFFFF;         /* fundo dos cartões */
+  --color-surface-alt: #EEF2F8;     /* fundo alternativo (ex: tags) */
+
+  /* Cores de texto */
+  --color-ink: #1B2733;             /* texto principal */
+  --color-ink-muted: #5B6B7C;       /* texto secundário */
+  --color-ink-soft: #8493A6;        /* texto terciário / legendas */
+
+  /* Paleta azul (cor de destaque pedida no briefing) */
+  --color-primary: #2C5FE0;         /* azul principal — lobos */
+  --color-primary-dark: #1E46B3;
+  --color-teal: #0E9A94;            /* azul-esverdeado — cerebelo/tronco */
+  --color-violet: #6C63FF;          /* azul-violeta — estruturas profundas */
+
+  /* Bordas e sombras */
+  --color-line: #E1E7EF;
+  --shadow-soft: 0 10px 30px rgba(30, 60, 110, 0.08);
+  --shadow-hover: 0 16px 40px rgba(30, 60, 110, 0.14);
+
+  /* Tipografia */
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Espaçamentos e formas */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --transition-fast: 180ms ease;
+  --transition-medium: 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------------
+   2. RESET BÁSICO
+   Remove margens/paddings padrão do navegador e define box-sizing
+   consistente em todos os elementos.
+   --------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Foco visível por teclado — importante para acessibilidade.
+   Só aparece quando a navegação é feita via teclado (:focus-visible),
+   evitando o contorno em cliques de mouse. */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------------
+   3. TIPOGRAFIA
+   --------------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h2 { font-size: clamp(1.4rem, 2.5vw, 1.8rem); margin-bottom: 0.75rem; }
+h3 { font-size: 1.1rem; }
+
+p {
+  color: var(--color-ink-muted);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------
+   4. LAYOUT GERAL (header / main / footer)
+   --------------------------------------------------------------------- */
+.site-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.site-header__inner,
+.site-footer__inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.brand__mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-violet));
+  display: grid;
+  place-items: center;
+}
+
+.brand__mark svg {
+  width: 20px;
+  height: 20px;
+}
+
+.site-nav__link {
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.site-nav__link:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
+}
+
+main {
+  flex: 1;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-line);
+  padding: 1.75rem 2rem;
+  margin-top: 3rem;
+}
+
+.site-footer p {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+/* ---------------------------------------------------------------------
+   5. HERO DA PÁGINA INICIAL
+   --------------------------------------------------------------------- */
+.hero {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 3rem 2rem 1rem;
+  text-align: center;
+}
+
+.hero p.lead {
+  max-width: 620px;
+  margin: 1rem auto 0;
+  font-size: 1.05rem;
+}
+
+/* ---------------------------------------------------------------------
+   6. ÁREA DO MAPA INTERATIVO (SVG + legenda)
+   --------------------------------------------------------------------- */
+.atlas {
+  max-width: 1160px;
+  margin: 2rem auto 4rem;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.atlas__stage {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem;
+}
+
+.atlas__hint {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-ink-soft);
+  text-align: center;
+  margin-top: 0.75rem;
+  letter-spacing: 0.03em;
+}
+
+/* Painel lateral com a legenda das estruturas */
+.legend {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem;
+}
+
+.legend h2 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.legend__group + .legend__group {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--color-line);
+}
+
+.legend__group-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.6rem;
+}
+
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--color-ink);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.legend__item:hover,
+.legend__item.is-active {
+  background: var(--color-surface-alt);
+  border-color: var(--color-line);
+  transform: translateX(2px);
+}
+
+.legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--dot-color, var(--color-primary));
+}
+
+/* Tooltip flutuante que segue o cursor sobre o SVG */
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-hover);
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 12px)) scale(0.94);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  max-width: 220px;
+}
+
+.tooltip.is-visible {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 12px)) scale(1);
+}
+
+.tooltip__title {
+  font-weight: 600;
+  display: block;
+}
+
+.tooltip__desc {
+  display: block;
+  color: #C9D3E0;
+  font-size: 0.74rem;
+  margin-top: 0.15rem;
+}
+
+/* ---------------------------------------------------------------------
+   7. PÁGINA DE DETALHE DE CADA ESTRUTURA
+   --------------------------------------------------------------------- */
+.detail {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+.detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.2rem;
+}
+
+.detail__back:hover {
+  text-decoration: underline;
+}
+
+.detail__hero {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.detail__icon {
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  display: grid;
+  place-items: center;
+}
+
+.detail__icon svg {
+  width: 46px;
+  height: 46px;
+}
+
+.detail__category {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.detail__short {
+  margin-top: 0.35rem;
+  color: var(--color-ink-muted);
+}
+
+.detail section.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail section.card h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail section.card h2::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.detail ul.function-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: 0.55rem;
+  color: var(--color-ink-muted);
+}
+
+.detail ul.function-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  transform: rotate(45deg);
+}
+
+.detail ul.bibliography-list li {
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.4rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.detail ul.bibliography-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-ink-soft);
+}
+
+.detail__back--bottom {
+  display: inline-flex;
+  margin-top: 0.5rem;
+}
+
+/* Estado de carregamento (enquanto script.js ainda não populou o conteúdo) */
+.detail[data-loading="true"] .card,
+.detail[data-loading="true"] .detail__hero {
+  opacity: 0;
+}
+
+.detail .card,
+.detail .detail__hero {
+  opacity: 1;
+  transition: opacity var(--transition-medium);
+}
+
+/* ---------------------------------------------------------------------
+   8. RESPONSIVIDADE
+   --------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .atlas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .hero {
+    padding: 2rem 1.25rem 0.5rem;
+  }
+
+  .atlas {
+    padding: 0 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .detail {
+    padding: 1.75rem 1.25rem 3rem;
+  }
+
+  .detail__hero {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Respeita a preferência do usuário por menos animação */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

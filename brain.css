@@ -1,0 +1,153 @@
+/* =====================================================================
+   brain.css
+   ---------------------------------------------------------------------
+   Estilos específicos do desenho SVG do cérebro: cores neutras e de
+   destaque para cada região, animações de hover, pulsação dos nós
+   e comportamento de foco por teclado.
+
+   Por que separar de style.css? Porque este arquivo lida SOMENTE com
+   a "ilustração" interativa. Se no futuro você quiser reaproveitar o
+   mesmo SVG em outra página, basta importar este CSS junto com ele.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. CONTAINER DO SVG
+   --------------------------------------------------------------------- */
+.brain-map {
+  width: 100%;
+  height: auto;
+  overflow: visible; /* permite que o glow do hover "vaze" um pouco */
+}
+
+/* ---------------------------------------------------------------------
+   2. ESTADO NEUTRO DAS REGIÕES
+   Todas as regiões clicáveis começam com o mesmo tom neutro de cinza-
+   azulado. É esse tom que volta quando o mouse sai da região.
+   --------------------------------------------------------------------- */
+.brain-region {
+  fill: #CBD5E3;
+  stroke: #A9B7C9;
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition:
+    fill var(--transition-medium),
+    stroke var(--transition-medium),
+    transform var(--transition-fast),
+    filter var(--transition-fast);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* Estruturas profundas (tálamo, hipotálamo, hipocampo, amígdala,
+   corpo caloso) começam um pouco mais translúcidas, pois estão
+   "por dentro" do cérebro — reforça a leitura de profundidade. */
+.brain-region--deep {
+  fill-opacity: 0.85;
+}
+
+/* Contorno externo do cérebro: decorativo, não é clicável nem muda
+   de cor — serve apenas de referência visual para o usuário. */
+.brain-outline {
+  fill: none;
+  stroke: #C3CEDC;
+  stroke-width: 2;
+  stroke-dasharray: 3 4;
+}
+
+/* ---------------------------------------------------------------------
+   3. QUANDO O MOUSE PASSA POR CIMA (:hover) OU O ELEMENTO GANHA
+   FOCO POR TECLADO (:focus-visible) — a classe .is-hovered também é
+   adicionada via JavaScript em brain.js para navegadores/situações
+   em que precisamos disparar o mesmo efeito manualmente.
+   --------------------------------------------------------------------- */
+.brain-region:hover,
+.brain-region:focus-visible,
+.brain-region.is-hovered {
+  filter: drop-shadow(0 6px 14px rgba(44, 95, 224, 0.35));
+  transform: scale(1.035);
+}
+
+/* Cor de destaque por categoria — usamos atributo data-category no
+   próprio elemento SVG para escolher a cor certa sem duplicar CSS
+   para cada uma das 11 regiões individualmente. */
+.brain-region[data-category="lobo"]:hover,
+.brain-region[data-category="lobo"]:focus-visible,
+.brain-region[data-category="lobo"].is-hovered {
+  fill: var(--color-primary);
+  stroke: var(--color-primary-dark);
+}
+
+.brain-region[data-category="cerebelo-tronco"]:hover,
+.brain-region[data-category="cerebelo-tronco"]:focus-visible,
+.brain-region[data-category="cerebelo-tronco"].is-hovered {
+  fill: var(--color-teal);
+  stroke: #0B7B76;
+}
+
+.brain-region[data-category="profunda"]:hover,
+.brain-region[data-category="profunda"]:focus-visible,
+.brain-region[data-category="profunda"].is-hovered {
+  fill: var(--color-violet);
+  stroke: #4A41D6;
+}
+
+/* ---------------------------------------------------------------------
+   4. "ESMAECER" O RESTANTE DO CÉREBRO QUANDO UMA REGIÃO ESTÁ EM HOVER
+   Essa classe é adicionada pelo JavaScript (brain.js) a todas as
+   regiões QUE NÃO estão sob o mouse, criando o efeito de contraste
+   pedido no briefing ("o restante do cérebro deve permanecer em uma
+   cor neutra").
+   --------------------------------------------------------------------- */
+.brain-region.is-dimmed {
+  fill-opacity: 0.45;
+  filter: none;
+  transform: scale(1);
+}
+
+/* ---------------------------------------------------------------------
+   5. NÓS PULSANTES (marcadores em forma de ponto sobre cada região)
+   Pequeno efeito de "sinapse", que é o elemento de assinatura visual
+   do site: um ponto que pulsa suavemente, sugerindo atividade
+   elétrica/neural mesmo quando nada está em hover.
+   --------------------------------------------------------------------- */
+.brain-node {
+  fill: #FFFFFF;
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  opacity: 0.55;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: pulse-node 2.6s ease-in-out infinite;
+  pointer-events: none; /* o clique deve valer para a região, não para o nó */
+}
+
+/* Cada nó tem um pequeno atraso diferente (definido inline via
+   style="animation-delay") para que o efeito não pulse tudo junto,
+   parecendo mais orgânico — como sinapses reais disparando. */
+@keyframes pulse-node {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.15);
+  }
+}
+
+/* Quando a região correspondente está em hover, o nó "acende" com
+   mais intensidade e para de pulsar (fica firme, em destaque). */
+.brain-region:hover ~ .brain-node,
+.brain-region.is-hovered ~ .brain-node {
+  animation-play-state: paused;
+  opacity: 1;
+  stroke: #fff;
+  fill: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brain-node {
+    animation: none;
+    opacity: 0.6;
+  }
+}
