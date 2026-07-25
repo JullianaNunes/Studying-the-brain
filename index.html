@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atlas do Cérebro · Explore a anatomia cerebral</title>
+  <meta name="description" content="Atlas interativo da anatomia do cérebro humano. Passe o mouse ou use o teclado para explorar cada região e clique para conhecer suas funções." />
+
+  <!-- Fontes usadas no projeto (Google Fonts). Isto NÃO é um framework
+       de JS/CSS, apenas arquivos de fonte, então respeita o requisito
+       de não usar frameworks como React/Vue/Bootstrap. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/brain.css" />
+</head>
+<body>
+
+  <!-- =================================================================
+       CABEÇALHO
+       ================================================================= -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="brand" aria-label="Atlas do Cérebro — página inicial">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C8 3 5 6 5 10c0 2 1 3.5 1 5 0 2 1.5 3 3 3v2h6v-2c1.5 0 3-1 3-3 0-1.5 1-3 1-5 0-4-3-7-7-7z" stroke="white" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        Atlas do Cérebro
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a class="site-nav__link" href="index.html">Mapa interativo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===============================================================
+         HERO / INTRODUÇÃO
+         =============================================================== -->
+    <section class="hero">
+      <span class="eyebrow">Neuroanatomia interativa</span>
+      <h1>Explore o cérebro humano, região por região</h1>
+      <p class="lead">
+        Passe o mouse (ou navegue com <kbd>Tab</kbd>) sobre cada área do
+        desenho abaixo para descobrir seu nome. Clique em uma região para
+        abrir uma página completa com suas funções, conexões e curiosidades.
+      </p>
+    </section>
+
+    <!-- ===============================================================
+         MAPA INTERATIVO (SVG + legenda lateral)
+         =============================================================== -->
+    <section class="atlas" aria-label="Mapa interativo do cérebro">
+
+      <!-- ------------------------------------------------------------
+           PALCO DO SVG
+           Cada região é um elemento <path> independente com um `id`
+           que corresponde exatamente a uma chave do objeto
+           `brainParts` em js/data.js. O atributo `data-category`
+           decide qual cor de destaque será usada (ver brain.css).
+           ------------------------------------------------------------ -->
+      <div class="atlas__stage">
+        <svg
+          class="brain-map"
+          viewBox="0 0 640 480"
+          role="group"
+          aria-label="Desenho esquemático do cérebro humano visto de lado, com 11 regiões clicáveis"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Contorno decorativo (não interativo) só para dar
+               referência visual do formato geral do encéfalo. -->
+          <path
+            class="brain-outline"
+            d="M70,150 C65,100 100,60 170,55 C230,35 320,35 380,60 C430,80 460,110 470,150 C480,180 475,205 460,225 C480,240 500,260 505,300 C510,340 495,375 460,395 C430,410 395,405 375,385 C365,395 350,400 335,395 C320,415 295,420 275,400 C230,410 190,395 165,365 C130,370 95,350 80,315 C60,290 55,255 65,225 C50,205 55,175 70,150 Z"
+          />
+
+          <!-- ============= LOBOS (córtex externo) ============= -->
+
+          <!-- Lobo Frontal -->
+          <path
+            id="frontal"
+            class="brain-region"
+            data-category="lobo"
+            d="M170,60 C120,55 85,85 72,140 C62,180 68,215 92,240 C115,262 148,258 168,240 C188,215 195,175 193,135 C192,100 190,75 170,60 Z"
+          />
+          <circle class="brain-node" cx="128" cy="152" r="4" style="animation-delay:0s"></circle>
+
+          <!-- Lobo Parietal -->
+          <path
+            id="parietal"
+            class="brain-region"
+            data-category="lobo"
+            d="M193,135 C195,95 210,65 245,52 C285,38 330,40 365,60 C390,75 402,100 400,130 C398,158 380,178 350,182 C315,187 275,182 240,172 C215,165 198,155 193,135 Z"
+          />
+          <circle class="brain-node" cx="300" cy="113" r="4" style="animation-delay:0.3s"></circle>
+
+          <!-- Lobo Occipital -->
+          <path
+            id="occipital"
+            class="brain-region"
+            data-category="lobo"
+            d="M400,130 C420,110 445,105 465,120 C485,138 492,168 483,198 C475,225 452,240 428,235 C405,230 393,210 393,185 C393,165 395,145 400,130 Z"
+          />
+          <circle class="brain-node" cx="440" cy="168" r="4" style="animation-delay:0.6s"></circle>
+
+          <!-- Lobo Temporal -->
+          <path
+            id="temporal"
+            class="brain-region"
+            data-category="lobo"
+            d="M168,240 C190,232 215,235 240,250 C265,265 280,285 285,308 C288,328 278,345 258,350 C232,357 200,352 178,335 C158,320 150,295 155,272 C158,258 160,248 168,240 Z"
+          />
+          <circle class="brain-node" cx="218" cy="292" r="4" style="animation-delay:0.9s"></circle>
+
+          <!-- ============= CEREBELO E TRONCO ============= -->
+
+          <!-- Cerebelo -->
+          <path
+            id="cerebellum"
+            class="brain-region"
+            data-category="cerebelo-tronco"
+            d="M393,235 C405,225 425,222 445,228 C465,234 480,248 485,268 C490,288 483,308 465,320 C448,331 425,332 408,322 C392,313 383,297 383,278 C383,262 386,246 393,235 Z"
+          />
+          <circle class="brain-node" cx="433" cy="275" r="4" style="animation-delay:1.2s"></circle>
+
+          <!-- Tronco Encefálico -->
+          <path
+            id="brainstem"
+            class="brain-region"
+            data-category="cerebelo-tronco"
+            d="M300,318 C310,315 322,316 330,325 C338,334 340,350 336,368 C333,384 325,398 312,405 C300,411 288,406 283,392 C278,376 280,356 288,340 C292,331 295,323 300,318 Z"
+          />
+          <circle class="brain-node" cx="308" cy="360" r="4" style="animation-delay:1.5s"></circle>
+
+          <!-- ============= ESTRUTURAS PROFUNDAS =============
+               Desenhadas "por dentro" do córtex, com opacidade
+               levemente reduzida (ver .brain-region--deep em
+               brain.css), simulando um corte interno simplificado. -->
+
+          <!-- Corpo Caloso -->
+          <path
+            id="corpuscallosum"
+            class="brain-region brain-region--deep"
+            data-category="profunda"
+            d="M215,140 C240,118 280,110 315,120 C335,126 345,138 340,150 C335,160 315,155 295,150 C270,144 245,148 225,158 C215,152 213,146 215,140 Z"
+          />
+          <circle class="brain-node" cx="278" cy="135" r="3.5" style="animation-delay:0.2s"></circle>
+
+          <!-- Tálamo -->
+          <path
+            id="thalamus"
+            class="brain-region brain-region--deep"
+            data-category="profunda"
+            d="M270,165 C285,160 300,165 305,178 C310,190 302,202 288,205 C274,208 262,200 260,187 C258,176 262,168 270,165 Z"
+          />
+          <circle class="brain-node" cx="283" cy="185" r="3.5" style="animation-delay:0.5s"></circle>
+
+          <!-- Hipotálamo -->
+          <path
+            id="hypothalamus"
+            class="brain-region brain-region--deep"
+            data-category="profunda"
+            d="M270,205 C278,203 286,206 288,213 C290,220 285,226 277,227 C269,228 262,224 261,217 C260,211 264,207 270,205 Z"
+          />
+          <circle class="brain-node" cx="274" cy="215" r="3" style="animation-delay:0.8s"></circle>
+
+          <!-- Hipocampo -->
+          <path
+            id="hippocampus"
+            class="brain-region brain-region--deep"
+            data-category="profunda"
+            d="M225,220 C240,215 255,220 262,232 C268,242 264,252 252,255 C238,258 222,253 214,242 C209,234 214,224 225,220 Z"
+          />
+          <circle class="brain-node" cx="238" cy="235" r="3.5" style="animation-delay:1.1s"></circle>
+
+          <!-- Amígdala -->
+          <path
+            id="amygdala"
+            class="brain-region brain-region--deep"
+            data-category="profunda"
+            d="M205,225 C213,222 221,226 222,234 C223,242 216,248 208,247 C200,246 195,240 196,233 C197,229 200,227 205,225 Z"
+          />
+          <circle class="brain-node" cx="209" cy="235" r="3" style="animation-delay:1.4s"></circle>
+
+        </svg>
+        <p class="atlas__hint">Passe o mouse ou use Tab + Enter para explorar cada região</p>
+      </div>
+
+      <!-- ------------------------------------------------------------
+           LEGENDA LATERAL
+           A lista de regiões (agrupada por categoria) é gerada
+           dinamicamente pelo JavaScript (função construirLegenda em
+           script.js), sempre a partir dos dados de js/data.js — assim
+           a legenda nunca fica desatualizada em relação ao SVG.
+           ------------------------------------------------------------ -->
+      <aside class="legend" aria-label="Lista de estruturas do cérebro">
+        <h2>Estruturas do cérebro</h2>
+        <div id="legend-list"><!-- preenchido via JavaScript --></div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Tooltip flutuante, reaproveitado para todas as regiões. Fica
+       escondido (opacity: 0) até que brain.js o posicione e exiba. -->
+  <div id="brain-tooltip" class="tooltip" role="tooltip" aria-hidden="true">
+    <span class="tooltip__title"></span>
+    <span class="tooltip__desc"></span>
+  </div>
+
+  <!-- =================================================================
+       RODAPÉ
+       ================================================================= -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>&copy; <span id="current-year"></span> Atlas do Cérebro — projeto educacional de código aberto.</p>
+      <p>Feito com HTML, CSS e JavaScript puro.</p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================
+       SCRIPTS
+       A ordem importa: data.js primeiro (define brainParts), depois
+       brain.js e script.js, que dependem desses dados já existirem.
+       =================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/brain.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
