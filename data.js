@@ -45,7 +45,7 @@ const brainParts = {
     id: "frontal",
     name: "Lobo Frontal",
     category: "lobo",
-    page: "pages/frontal.html",
+    page: "frontal.html",
     shortDesc: "Planejamento, raciocínio e controle dos movimentos voluntários.",
     description:
       "O lobo frontal é a maior região do cérebro humano e fica localizado " +
@@ -87,7 +87,7 @@ const brainParts = {
     id: "parietal",
     name: "Lobo Parietal",
     category: "lobo",
-    page: "pages/parietal.html",
+    page: "parietal.html",
     shortDesc: "Processamento sensorial e percepção espacial.",
     description:
       "Localizado na parte superior e posterior do cérebro, o lobo " +
